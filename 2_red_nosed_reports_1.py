@@ -1,18 +1,24 @@
 """
-Fortunately, the first location The Historians want to search isn't a long walk from the Chief Historian's office.
+Fortunately, the first location The Historians want to search
+isn't a long walk from the Chief Historian's office.
 
-While the Red-Nosed Reindeer nuclear fusion/fission plant appears to contain no sign of the Chief Historian,
+While the Red-Nosed Reindeer nuclear fusion/fission plant
+appears to contain no sign of the Chief Historian,
 the engineers there run up to you as soon as they see you.
-Apparently, they still talk about the time Rudolph was saved through molecular synthesis from a single electron.
+Apparently, they still talk about the time
+Rudolph was saved through molecular synthesis from a single electron.
 
-They're quick to add that - since you're already here - they'd really appreciate your help
+They're quick to add that - since you're already here -
+they'd really appreciate your help
 analyzing some unusual data from the Red-Nosed reactor.
 You turn to check if The Historians are waiting for you,
-but they seem to have already divided into groups that are currently searching every corner of the facility.
+but they seem to have already divided into groups
+that are currently searching every corner of the facility.
 You offer to help with the unusual data.
 
 The unusual data (your puzzle input) consists of many reports, one report per line.
-Each report is a list of numbers called levels that are separated by spaces. For example:
+Each report is a list of numbers called levels that are separated by spaces.
+For example:
 7 6 4 2 1
 1 2 7 8 9
 9 7 6 2 1
@@ -42,13 +48,12 @@ Analyze the unusual data from the engineers. How many reports are safe?
 """
 
 from itertools import starmap
-from functools import reduce
 
 
 def is_report_safe(report: list) -> bool:
     direction = report[0] > report[1]
     return all(
-        starmap(_all_fn(_has_ok_diff, _has_direction(direction)), _pairwise(report))
+        starmap(_all_fn(_has_ok_diff, _has_direction(direction)), _pairwise(report)),
     )
 
 

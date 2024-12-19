@@ -1,14 +1,19 @@
 """
-"Looks like the Chief's not here. Next!" One of The Historians pulls out a device and pushes the only button on it.
+"Looks like the Chief's not here. Next!"
+One of The Historians pulls out a device and pushes the only button on it.
 After a brief flash, you recognize the interior of the Ceres monitoring station!
 
-As the search for the Chief continues, a small Elf who lives on the station tugs on your shirt;
+As the search for the Chief continues,
+a small Elf who lives on the station tugs on your shirt;
 she'd like to know if you could help her with her word search (your puzzle input).
 She only has to find one word: XMAS.
 
-This word search allows words to be horizontal, vertical, diagonal, written backwards, or even overlapping other words.
-It's a little unusual, though, as you don't merely need to find one instance of XMAS - you need to find all of them.
-Here are a few ways XMAS might appear, where irrelevant characters have been replaced with .:
+This word search allows words to be horizontal, vertical, diagonal,
+written backwards, or even overlapping other words.
+It's a little unusual, though, as you don't merely need to find one instance of XMAS -
+you need to find all of them.
+Here are a few ways XMAS might appear,
+where irrelevant characters have been replaced with .:
 
 ..X...
 .SAMX.
@@ -30,7 +35,8 @@ MAMMMXMMMM
 MXMXAXMASX
 
 In this word search, XMAS occurs a total of 18 times;
-here's the same word search again, but where letters not involved in any XMAS have been replaced with .:
+here's the same word search again,
+but where letters not involved in any XMAS have been replaced with .:
 
 ....XXMAS.
 .SAMXMS...
@@ -162,28 +168,28 @@ def _to_array(s: str):
 s = _to_array(
     """
     XMAS
-    """
+    """,
 )
 assert ceres_search(s) == [Match.HORIZONTAL_FORWARDS]
 
 s = _to_array(
     """
     SAMX
-    """
+    """,
 )
 assert ceres_search(s) == [Match.HORIZONTAL_BACKWARDS]
 
 s = _to_array(
     """
     SAMXMAS
-    """
+    """,
 )
 assert ceres_search(s) == [Match.HORIZONTAL_FORWARDS, Match.HORIZONTAL_BACKWARDS]
 
 s = _to_array(
     """
     XMASAMX
-    """
+    """,
 )
 assert ceres_search(s) == [Match.HORIZONTAL_FORWARDS, Match.HORIZONTAL_BACKWARDS]
 
@@ -193,7 +199,7 @@ s = _to_array(
     M
     A
     S
-    """
+    """,
 )
 assert ceres_search(s) == [Match.VERTICAL_FORWARDS]
 
@@ -203,7 +209,7 @@ s = _to_array(
     A
     M
     X
-    """
+    """,
 )
 assert ceres_search(s) == [Match.VERTICAL_BACKWARDS]
 
@@ -216,7 +222,7 @@ s = _to_array(
     M
     A
     S
-    """
+    """,
 )
 assert ceres_search(s) == [Match.VERTICAL_FORWARDS, Match.VERTICAL_BACKWARDS]
 
@@ -229,7 +235,7 @@ s = _to_array(
     A
     M
     X
-    """
+    """,
 )
 assert ceres_search(s) == [Match.VERTICAL_FORWARDS, Match.VERTICAL_BACKWARDS]
 
@@ -239,7 +245,7 @@ s = _to_array(
     .M..
     ..A.
     ...S
-    """
+    """,
 )
 assert ceres_search(s) == [Match.DIAGONAL_LR_FORWARDS]
 
@@ -249,7 +255,7 @@ s = _to_array(
     .A..
     ..M.
     ...X
-    """
+    """,
 )
 assert ceres_search(s) == [Match.DIAGONAL_LR_BACKWARDS]
 
@@ -262,7 +268,7 @@ s = _to_array(
     ....A..
     .....M.
     ......X
-    """
+    """,
 )
 assert ceres_search(s) == [Match.DIAGONAL_LR_FORWARDS, Match.DIAGONAL_LR_BACKWARDS]
 
@@ -275,7 +281,7 @@ s = _to_array(
     ....M..
     .....A.
     ......S
-    """
+    """,
 )
 assert ceres_search(s) == [Match.DIAGONAL_LR_FORWARDS, Match.DIAGONAL_LR_BACKWARDS]
 
@@ -285,7 +291,7 @@ s = _to_array(
     ..M.
     .A..
     S...
-    """
+    """,
 )
 assert ceres_search(s) == [Match.DIAGONAL_RL_FORWARDS]
 
@@ -295,7 +301,7 @@ s = _to_array(
     ..A.
     .M..
     X...
-    """
+    """,
 )
 assert ceres_search(s) == [Match.DIAGONAL_RL_BACKWARDS]
 
@@ -308,7 +314,7 @@ s = _to_array(
     ..A....
     .M.....
     X......
-    """
+    """,
 )
 assert ceres_search(s) == [Match.DIAGONAL_RL_FORWARDS, Match.DIAGONAL_RL_BACKWARDS]
 
@@ -321,7 +327,7 @@ s = _to_array(
     ..M....
     .A.....
     S......
-    """
+    """,
 )
 assert ceres_search(s) == [Match.DIAGONAL_RL_FORWARDS, Match.DIAGONAL_RL_BACKWARDS]
 
@@ -332,7 +338,7 @@ s = _to_array(
     .A..A.
     XMAS.S
     .X....
-    """
+    """,
 )
 assert ceres_search(s) == [
     Match.DIAGONAL_LR_FORWARDS,

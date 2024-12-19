@@ -26,8 +26,8 @@ Handle the new instructions;
 what do you get if you add up all of the results of just the enabled multiplications?
 """
 
-from operator import mul
 import re
+from operator import mul
 
 
 def fix_mul_conditional(data):

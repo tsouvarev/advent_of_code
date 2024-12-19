@@ -1,5 +1,6 @@
 """
-"Our computers are having issues, so I have no idea if we have any Chief Historians in stock!
+"Our computers are having issues,
+so I have no idea if we have any Chief Historians in stock!
 You're welcome to check the warehouse, though,"
 says the mildly flustered shopkeeper at the North Pole Toboggan Rental Shop.
 The Historians head out to take a look.
@@ -31,8 +32,8 @@ Scan the corrupted memory for uncorrupted mul instructions.
 What do you get if you add up all of the results of the multiplications?
 """
 
-from operator import mul
 import re
+from operator import mul
 
 
 def fix_mul(s):

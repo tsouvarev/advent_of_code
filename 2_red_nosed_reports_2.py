@@ -3,11 +3,13 @@ The engineers are surprised by the low number of safe reports
 until they realize they forgot to tell you about the Problem Dampener.
 
 The Problem Dampener is a reactor-mounted module
-that lets the reactor safety systems tolerate a single bad level in what would otherwise be a safe report.
+that lets the reactor safety systems tolerate
+a single bad level in what would otherwise be a safe report.
 It's like the bad level never happened!
 
 Now, the same rules apply as before,
-except if removing a single level from an unsafe report would make it safe, the report instead counts as safe.
+except if removing a single level from an unsafe report would make it safe,
+the report instead counts as safe.
 
 More of the above example's reports are now safe:
 - 7 6 4 2 1: Safe without removing any level.
@@ -24,8 +26,10 @@ where the Problem Dampener can remove a single level from unsafe reports.
 How many reports are now safe?
 """
 
+from itertools import pairwise
 
-def is_report_safe(report: list, allow_fix=True) -> bool:
+
+def is_report_safe(report: list, *, allow_fix=True) -> bool:
     direction = _get_dominant_direction(report)
 
     for i in range(len(report) - 1):
@@ -42,7 +46,8 @@ def is_report_safe(report: list, allow_fix=True) -> bool:
         without_b.pop(i + 1)
 
         return is_report_safe(without_a, allow_fix=False) or is_report_safe(
-            without_b, allow_fix=False
+            without_b,
+            allow_fix=False,
         )
 
     return True
@@ -53,7 +58,7 @@ def _has_ok_diff(a, b):
 
 
 def _get_dominant_direction(seq):
-    direction = sum(a > b for a, b in zip(seq, seq[1:]))
+    direction = sum(a > b for a, b in pairwise(seq))
     return direction > len(seq) / 2
 
 
