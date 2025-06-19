@@ -79,11 +79,9 @@ Your actual left and right lists contain many location IDs.
 What is the total distance between your lists?
 """
 
-from itertools import starmap
-
 
 def list_diff(list_1, list_2):
-    return sum(starmap(lambda x, y: abs(x - y), zip(sorted(list_1), sorted(list_2))))
+    return sum(map(lambda x, y: abs(x - y), sorted(list_1), sorted(list_2)))
 
 
 assert list_diff([], []) == 0
