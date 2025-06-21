@@ -48,5 +48,5 @@ long_exp = "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(
 assert fix_mul_conditional(long_exp) == 2 * 4 + 8 * 5
 
 
-with open("3_mull_it_over/input.txt") as f:
+with open("03_mull_it_over/input.txt") as f:
     print(fix_mul_conditional(f.read()))

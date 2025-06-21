@@ -51,5 +51,5 @@ assert (
 )
 
 
-with open("3_mull_it_over/input.txt") as f:
+with open("03_mull_it_over/input.txt") as f:
     print(fix_mul(f.read()))

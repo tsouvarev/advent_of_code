@@ -164,5 +164,5 @@ assert checksum(_to_array_from_ids("022111222")) == 60
 assert checksum(_to_array_from_ids("0099811188827773336446555566")) == 1928
 
 
-with open("9_disk_fragmenter/input.txt") as f:
+with open("09_disk_fragmenter/input.txt") as f:
     print(checksum(defragment(_to_array(f.readline().strip()))))

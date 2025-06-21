@@ -140,6 +140,6 @@ def parse(raw_str):
     return int(total), list(map(int, operands))
 
 
-with open("7_bridge_repair/input.txt") as f:
+with open("07_bridge_repair/input.txt") as f:
     correct_equations = starmap(find_correct_equations, map(parse, f))
     print(sum(res for res, equations in correct_equations if equations))

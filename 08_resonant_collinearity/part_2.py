@@ -282,5 +282,5 @@ assert get_all_antinodes(s) == [
     (11, 11),
 ]
 
-with open("8_resonant_collinearity/input.txt") as f:
+with open("08_resonant_collinearity/input.txt") as f:
     print(len(get_all_antinodes(_to_array(f.read()))))

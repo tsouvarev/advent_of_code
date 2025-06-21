@@ -347,5 +347,5 @@ assert ceres_search(s) == [
     Match.VERTICAL_BACKWARDS,
 ]
 
-with open("4_ceres_search/input.txt") as f:
+with open("04_ceres_search/input.txt") as f:
     print(len(ceres_search(_to_array(f.read()))))

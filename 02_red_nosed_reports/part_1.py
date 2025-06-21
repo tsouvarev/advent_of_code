@@ -82,7 +82,7 @@ assert is_report_safe([1, 3, 2, 4, 5]) is False
 assert is_report_safe([8, 6, 4, 4, 1]) is False
 assert is_report_safe([1, 3, 6, 7, 9]) is True
 
-with open("2_red_nosed_reports/input.txt") as f:
+with open("02_red_nosed_reports/input.txt") as f:
     reports = []
     for l in f:
         raw_report = l.split(" ")

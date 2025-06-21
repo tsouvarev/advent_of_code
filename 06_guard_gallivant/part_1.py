@@ -301,5 +301,5 @@ assert (marked := mark_routes(data)) == _to_array(
 )
 assert count_visits(marked) == 41
 
-with open("6_guard_gallivant/input.txt") as f:
+with open("06_guard_gallivant/input.txt") as f:
     marked_map = mark_routes(_to_array(f.read()))

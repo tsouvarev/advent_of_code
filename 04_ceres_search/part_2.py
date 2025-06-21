@@ -172,5 +172,5 @@ assert ceres_search_mas(s) == [
     Match.SAM_SAM,
 ]
 
-with open("4_ceres_search/input.txt") as f:
+with open("04_ceres_search/input.txt") as f:
     print(len(ceres_search_mas(_to_array(f.read()))))
