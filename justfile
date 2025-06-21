@@ -8,7 +8,7 @@ check:
     {{ RUFF }} check .
 
 install:
-	uv sync
+    uv sync
 
 upgrade:
-	uv lock --upgrade
+    uv lock --upgrade
