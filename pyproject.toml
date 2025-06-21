@@ -5,6 +5,7 @@ requires-python = ">=3.13"
 
 [dependency-groups]
 dev = [
+    "ipython>=9.3.0",
     "pytest",
     "ruff",
 ]
