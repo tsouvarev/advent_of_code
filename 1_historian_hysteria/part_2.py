@@ -59,7 +59,7 @@ assert list_weighted_diff([1], [2]) == 0
 assert list_weighted_diff([1], [1, 1, 1]) == 3
 assert list_weighted_diff([3, 4, 2, 1, 3, 3], [4, 3, 5, 3, 9, 3]) == 31
 
-with open("1_historian_hysteria_input.txt") as f:
+with open("1_historian_hysteria/input.txt") as f:
     x, y = [], []
     for l in f:
         els = l.split("   ")

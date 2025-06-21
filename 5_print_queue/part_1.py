@@ -192,11 +192,11 @@ assert (
     == 143
 )
 
-with open("5_print_queue_rules.txt") as f:
+with open("5_print_queue/rules.txt") as f:
     rules = [tuple(map(int, l.split("|"))) for l in f]
 
 
-with open("5_print_queue_updates.txt") as f:
+with open("5_print_queue/updates.txt") as f:
     updates = [tuple(map(int, l.split(","))) for l in f]
 
 print(get_middle_sums_of_correct_updates(updates, rules))
