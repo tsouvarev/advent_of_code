@@ -1,1 +1,1 @@
-Tasks from https://adventofcode.com/2024
+Tasks from https://adventofcode.com/
