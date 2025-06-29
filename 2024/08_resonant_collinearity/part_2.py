@@ -60,8 +60,8 @@ class Coordinate(NamedTuple):
     y: int
 
 
-def get_all_antinodes(input: list[str]) -> set[Coordinate]:
-    all_coordinates = _convert_input_to_coordinates(input)
+def get_all_antinodes(s: list[str]) -> set[Coordinate]:
+    all_coordinates = _convert_input_to_coordinates(s)
     antinode_generators = []
 
     for coordinates in all_coordinates.values():
@@ -70,19 +70,19 @@ def get_all_antinodes(input: list[str]) -> set[Coordinate]:
 
     antinodes = drop_out_of_bound_coordinates(
         antinode_generators,
-        max_x=len(input),
-        max_y=len(input[0]),
+        max_x=len(s),
+        max_y=len(s[0]),
     )
 
     return _deduplicate(antinodes)
 
 
-def _convert_input_to_coordinates(input: list[str]) -> dict[str, list[Coordinate]]:
+def _convert_input_to_coordinates(s: list[str]) -> dict[str, list[Coordinate]]:
     coordinates = defaultdict(list)
 
-    for i in range(len(input)):
-        for j in range(len(input[i])):
-            char = input[i][j]
+    for i in range(len(s)):
+        for j in range(len(s[i])):
+            char = s[i][j]
             if char not in ".#":
                 coordinates[char].append(Coordinate(i, j))
 
