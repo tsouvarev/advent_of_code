@@ -26,7 +26,10 @@ A disk map like 90909 would represent three nine-block files in a row
 Each file on disk also has an ID number based on the order of the files
 as they appear before they are rearranged, starting with ID 0.
 So, the disk map 12345 has three files:
-a one-block file with ID 0, a three-block file with ID 1, and a five-block file with ID 2.
+- a one-block file with ID 0,
+- a three-block file with ID 1,
+- a five-block file with ID 2.
+
 Using one character for each block where digits are the file ID and . is free space,
 the disk map 12345 represents these individual blocks:
 
@@ -65,7 +68,8 @@ The first example requires a few more steps:
 0099811188827773336446555566..............
 
 The final step of this file-compacting process is to update the filesystem checksum.
-To calculate the checksum, add up the result of multiplying each of these blocks' position
+To calculate the checksum,
+add up the result of multiplying each of these blocks' position
 with the file ID number it contains.
 The leftmost block is in position 0. If a block contains free space, skip it instead.
 

@@ -1,15 +1,19 @@
 """
-The Historians take you to a familiar rope bridge over a river in the middle of a jungle.
-The Chief isn't on this side of the bridge, though; maybe he's on the other side?
+The Historians take you to a familiar rope bridge
+over a river in the middle of a jungle.
+The Chief isn't on this side of the bridge, though;
+maybe he's on the other side?
 
 When you go to cross the bridge, you notice a group of engineers trying to repair it.
 (Apparently, it breaks pretty frequently.) You won't be able to cross until it's fixed.
 
-You ask how long it'll take; the engineers tell you that it only needs final calibrations,
+You ask how long it'll take;
+the engineers tell you that it only needs final calibrations,
 but some young elephants were playing nearby and stole all the operators
 from their calibration equations! They could finish the calibrations
 if only someone could determine which test values could possibly be produced
-by placing any combination of operators into their calibration equations (your puzzle input).
+by placing any combination of operators into their calibration equations
+(your puzzle input).
 
 For example:
 
@@ -25,8 +29,8 @@ For example:
 
 Each line represents a single equation.
 The test value appears before the colon on each line;
-it is your job to determine whether the remaining numbers can be combined with operators
-to produce the test value.
+it is your job to determine whether the remaining numbers
+can be combined with operators to produce the test value.
 
 Operators are always evaluated left-to-right, not according to precedence rules.
 Furthermore, numbers in the equations cannot be rearranged.
@@ -36,7 +40,8 @@ holding two different types of operators: add (+) and multiply (*).
 Only three of the above equations can be made true by inserting operators:
 
     190: 10 19 has only one position that accepts an operator: between 10 and 19.
-         Choosing + would give 29, but choosing * would give the test value (10 * 19 = 190).
+         Choosing + would give 29,
+         but choosing * would give the test value (10 * 19 = 190).
     3267: 81 40 27 has two positions for operators.
           Of the four possible configurations of the operators,
           two cause the right side to match the test value:
@@ -45,10 +50,11 @@ Only three of the above equations can be made true by inserting operators:
 
 The engineers just need the total calibration result,
 which is the sum of the test values from just the equations
-that could possibly be true.
-In the above example, the sum of the test values for the three equations listed above is 3749.
+that could possibly be true. In the above example,
+the sum of the test values for the three equations listed above is 3749.
 
-Determine which equations could possibly be true. What is their total calibration result?
+Determine which equations could possibly be true.
+What is their total calibration result?
 """
 
 from collections.abc import Iterator
