@@ -1,0 +1,11 @@
+year:
+    type: str
+    help: Task year
+
+day:
+    type: int
+    help: Day number
+
+task:
+    type: str
+    help: Task name

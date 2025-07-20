@@ -12,3 +12,6 @@ install:
 
 upgrade:
     uv lock --upgrade
+
+day:
+    uv run copier copy _day_template/ .
