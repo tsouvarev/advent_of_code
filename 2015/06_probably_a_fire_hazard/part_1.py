@@ -90,7 +90,10 @@ def _to_map(field: Field) -> str:
 
 
 def _check_switch(
-    raw_field: str, from_: tuple[int, int], to_: tuple[int, int], action: Action,
+    raw_field: str,
+    from_: tuple[int, int],
+    to_: tuple[int, int],
+    action: Action,
 ) -> str:
     mapped = _to_map(
         switch_lights(_to_array(raw_field), Coord(*from_), Coord(*to_), action),

@@ -45,7 +45,7 @@ def is_nice(input_str: str) -> int:
 FORBIDDEN_PAIRINGS = {("a", "b"), ("c", "d"), ("p", "q"), ("x", "y")}
 
 
-def is_nice(input_str: str) -> int:
+def is_nice_one_run(input_str: str) -> int:
     # we check only first symbol of pair on being vowel,
     # so the last symbol of input should be checked too
     has_double, vowels_count = False, input_str[-1] in "aeiou"
