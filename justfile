@@ -15,3 +15,6 @@ upgrade:
 
 day:
     uv run copier copy _day_template/ .
+
+shell:
+    uv run ipython
