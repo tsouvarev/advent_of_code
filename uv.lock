@@ -6,27 +6,25 @@ requires-python = ">=3.13"
 name = "advent-of-code-2024"
 version = "0.1.0"
 source = { virtual = "." }
-dependencies = [
-    { name = "parse" },
-]
 
 [package.dev-dependencies]
 dev = [
     { name = "cookiecutter" },
     { name = "copier" },
     { name = "ipython" },
+    { name = "parse" },
     { name = "pytest" },
     { name = "ruff" },
 ]
 
 [package.metadata]
-requires-dist = [{ name = "parse", specifier = ">=1.20.2" }]
 
 [package.metadata.requires-dev]
 dev = [
     { name = "cookiecutter", specifier = ">=2.6.0" },
     { name = "copier", specifier = ">=9.8.0" },
     { name = "ipython", specifier = ">=9.3.0" },
+    { name = "parse", specifier = ">=1.20.2" },
     { name = "pytest" },
     { name = "ruff" },
 ]
