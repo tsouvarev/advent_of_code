@@ -14,7 +14,7 @@ upgrade:
     uv lock --upgrade
 
 day:
-    uv run copier copy _day_template/ .
+    uv run copier copy _day_template/ . --trust
 
 shell:
     uv run ipython

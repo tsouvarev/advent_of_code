@@ -9,3 +9,6 @@ day:
 task:
     type: str
     help: Task name
+
+_jinja_extensions:
+    - cookiecutter.extensions.SlugifyExtension

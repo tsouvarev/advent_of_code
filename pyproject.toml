@@ -5,6 +5,7 @@ requires-python = ">=3.13"
 
 [dependency-groups]
 dev = [
+    "cookiecutter>=2.6.0",
     "copier>=9.8.0",
     "ipython>=9.3.0",
     "pytest",
