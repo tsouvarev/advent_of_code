@@ -1,2 +1,2 @@
-input*.txt -diff
+*.txt -diff
 uv.lock -diff
