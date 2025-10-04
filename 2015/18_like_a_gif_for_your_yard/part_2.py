@@ -76,11 +76,10 @@ def switch_lights(field: Field) -> Field:
     }
 
     for i in range(len(field)):
-        new_row = []
-
-        for j in range(len(field[i])):
-            new_row.append((i, j) in corners or _get_new_state(field, i, j))
-
+        new_row = [
+            (i, j) in corners or _get_new_state(field, i, j)
+            for j in range(len(field[i]))
+        ]
         new_field.append(new_row)
 
     return new_field
@@ -108,7 +107,7 @@ def _get_new_state(field: Field, i: int, j: int) -> bool:
     return count_of_ons == 3
 
 
-def _get_index_safe(field: Field, i: int, j: int, default: bool = False) -> bool:
+def _get_index_safe(field: Field, i: int, j: int, *, default: bool = False) -> bool:
     if 0 <= i < len(field) and 0 <= j < len(field[i]):
         return field[i][j]
 
