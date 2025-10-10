@@ -115,7 +115,7 @@ class Coordinate(NamedTuple):
 class Point(NamedTuple):
     coord: Coordinate
     value: int
-    moves: list["Point"]
+    moves: list[Point]
 
 
 def get_sum_score(topo_map: TopoMap) -> int:

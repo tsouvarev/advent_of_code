@@ -60,7 +60,7 @@ from typing import NamedTuple
 
 
 class Gate(NamedTuple):
-    operation: "Operation"
+    operation: Operation
     to_: str
     inputs: list[str]
     operands: list[str | int]

@@ -160,8 +160,8 @@ from typing import NamedTuple
 
 
 class Robot(NamedTuple):
-    start: "Coordinate"
-    moves: "Move"
+    start: Coordinate
+    moves: Move
 
 
 class Coordinate(NamedTuple):

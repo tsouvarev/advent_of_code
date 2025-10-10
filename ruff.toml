@@ -1,5 +1,5 @@
 line-length = 88
-target-version = 'py313'
+target-version = 'py314'
 
 [lint]
 select = ['ALL']
@@ -17,4 +17,7 @@ ignore = [
     'PTH123', # open() should be replaced by Path.open()
     'S101', # Use of assert detected
     'T201', # print found
+    'TC001', # Move application import into a type-checking block
+    'TC002', # Move third-party import into a type-checking block
+    'TC003', # Move standard library import into a type-checking block
 ]

@@ -121,7 +121,7 @@ class Registers(TypedDict):
 
 
 class Instruction(NamedTuple):
-    operation: "Op"
+    operation: Op
     operand: int
 
 

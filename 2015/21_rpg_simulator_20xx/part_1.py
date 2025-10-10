@@ -78,13 +78,13 @@ from math import ceil
 class Item:
     name: str
     cost: int
-    stats: "Stats"
+    stats: Stats
 
 
 @dataclass
 class Player:
     health: int
-    stats: "Stats"
+    stats: Stats
     items: list[Item]
 
     @property
