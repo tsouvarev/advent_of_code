@@ -45,7 +45,7 @@ MOVES = {
 }
 
 
-def follow(directions: str, start: str) -> int:
+def follow(directions: str, start: str) -> str:
     current_position = start
     for turn in directions:
         current_position = MOVES[current_position][turn]

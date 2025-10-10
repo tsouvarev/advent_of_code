@@ -1,4 +1,5 @@
 RUFF := 'uv run ruff'
+TY := 'uv run ty'
 
 format:
     {{ RUFF }} format . --silent
@@ -6,6 +7,7 @@ format:
 
 check:
     {{ RUFF }} check .
+    {{ TY }} check .
 
 install:
     uv sync
