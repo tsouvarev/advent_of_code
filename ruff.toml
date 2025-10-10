@@ -4,17 +4,17 @@ target-version = 'py313'
 [lint]
 select = ['ALL']
 ignore = [
-    'ARG005',
-    'ANN',
-    'B905',
-    'B911',
-    'D',
-    'E741',
-    'ERA001',
-    'N999',
-    'PLR2004',
-    'PT013',
-    'PTH123',
-    'S101',
-    'T201',
+    'ARG005', # Unused lambda argument
+    'ANN', # Annotations
+    'B905', # zip() without an explicit strict= parameter
+    'B911', # itertools.batched() without an explicit strict parameter
+    'D', # Docstrings
+    'E741', # Ambiguous variable name
+    'ERA001', # Found commented-out code
+    'N999', # Invalid module name
+    'PLR2004', # Magic value used in comparison
+    'PT013', # Incorrect import of pytest; use import pytest instead
+    'PTH123', # open() should be replaced by Path.open()
+    'S101', # Use of assert detected
+    'T201', # print found
 ]
