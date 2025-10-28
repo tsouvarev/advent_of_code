@@ -95,7 +95,7 @@ def run(commands: list[str], **registers: Unpack[Registers]) -> Registers:
 def _cpy(registers: Registers, from_: Register | Value, to_: Register) -> Return:
     match from_:
         case "a" | "b" | "c" | "d":
-            registers[to_] = registers[from_]
+            registers[to_] = registers[from_]  # type: ignore[invalid-key]
         case str():
             registers[to_] = int(from_)
         case _:
@@ -117,7 +117,7 @@ def _dec(registers: Registers, from_: Register) -> Return:
 def _jnz(registers: Registers, from_: Register | Value, n: Value) -> Return:
     match from_:
         case "a" | "b" | "c" | "d":
-            should_jump = bool(registers[from_])
+            should_jump = bool(registers[from_])  # type: ignore[invalid-key]
         case str():
             should_jump = bool(int(from_))
         case _:
