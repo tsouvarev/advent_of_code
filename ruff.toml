@@ -4,6 +4,7 @@ target-version = 'py314'
 [lint]
 select = ['ALL']
 ignore = [
+    'ARG001', # Unused function argument
     'ARG005', # Unused lambda argument
     'ANN', # Annotations
     'B905', # zip() without an explicit strict= parameter
