@@ -13,7 +13,7 @@ install:
     uv sync
 
 upgrade:
-    uv lock --upgrade
+    uv lock --upgrade --exclude-newer `date --date '7 days ago' --iso-8601`
 
 day:
     uv run copier copy _day_template/ . --trust
