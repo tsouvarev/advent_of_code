@@ -71,12 +71,17 @@ What value should be sent to the safe?
 from dataclasses import dataclass
 from enum import StrEnum, auto
 from re import fullmatch
-from typing import Literal, NotRequired, TypedDict, Unpack
+from typing import Literal, NamedTuple, NotRequired, TypedDict, Unpack
 
 Register = Literal["a", "b", "c", "d"]
 type Value = str
 type Offset = int
-type Return = tuple[Registers, list[Command], Offset]
+
+
+class Return(NamedTuple):
+    registers: Registers
+    commands: list[Command]
+    offset: Offset
 
 
 @dataclass
@@ -102,7 +107,7 @@ class Registers(TypedDict):
 
 def run(raw_commands: list[str], **registers: Unpack[Registers]) -> Registers:
     registers = dict.fromkeys("abcd", 0) | registers
-    instruction_pointer = 0
+    instruction_pointer, offset = 0, 0
     commands = [_parse_command(c) for c in raw_commands]
 
     handlers = {
@@ -112,19 +117,20 @@ def run(raw_commands: list[str], **registers: Unpack[Registers]) -> Registers:
         "jnz": _jnz,
         "tgl": _tgl,
     }
+    res = Return(registers, commands, offset)
 
-    while instruction_pointer < len(commands):
-        command = commands[instruction_pointer]
+    while instruction_pointer < len(res.commands):
+        command = res.commands[instruction_pointer]
         handler = handlers[command.op]
-        registers, commands, offset = handler(
-            registers,
-            commands,
+        res = handler(
+            res.registers,
+            res.commands,
             instruction_pointer,
             *command.args,  # type: ignore[invalid-argument-type]
         )
-        instruction_pointer += offset or 1
+        instruction_pointer += res.offset or 1
 
-    return registers
+    return res.registers
 
 
 def _cpy(
@@ -138,7 +144,7 @@ def _cpy(
         case "a" | "b" | "c" | "d":
             pass
         case _:
-            return registers, commands, 0
+            return Return(registers, commands, 0)
 
     match from_:
         case "a" | "b" | "c" | "d":
@@ -148,7 +154,7 @@ def _cpy(
         case _:
             pass
 
-    return registers, commands, 0
+    return Return(registers, commands, 0)
 
 
 def _inc(
@@ -158,7 +164,7 @@ def _inc(
     from_: Register,
 ) -> Return:
     registers[from_] += 1
-    return registers, commands, 0
+    return Return(registers, commands, 0)
 
 
 def _dec(
@@ -168,7 +174,7 @@ def _dec(
     from_: Register,
 ) -> Return:
     registers[from_] -= 1
-    return registers, commands, 0
+    return Return(registers, commands, 0)
 
 
 def _jnz(
@@ -184,7 +190,7 @@ def _jnz(
         case str():
             should_jump = bool(int(from_))
         case _:
-            return registers, commands, 0
+            return Return(registers, commands, 0)
 
     match n:
         case str() if fullmatch(r"[+-]?\d+", n):
@@ -192,9 +198,9 @@ def _jnz(
         case "a" | "b" | "c" | "d":
             n = registers[n]  # type: ignore[invalid-key]
         case _:
-            return registers, commands, 0
+            return Return(registers, commands, 0)
 
-    return registers, commands, int(n) if should_jump else 0
+    return Return(registers, commands, int(n) if should_jump else 0)
 
 
 def _tgl(
@@ -210,7 +216,7 @@ def _tgl(
             raise ValueError
 
     if toggle_pointer >= len(commands):
-        return registers, commands, 0
+        return Return(registers, commands, 0)
 
     command_to_change = commands[toggle_pointer]
     match command_to_change.op:
@@ -226,7 +232,7 @@ def _tgl(
             new_op = Op.JNZ
 
     command_to_change.op = new_op
-    return registers, commands, 0
+    return Return(registers, commands, 0)
 
 
 def _parse_command(raw_command: str) -> Command:

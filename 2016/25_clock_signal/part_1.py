@@ -48,13 +48,18 @@ and cause the code to output a clock signal of 0, 1, 0, 1... repeating forever?
 """
 
 from itertools import count
-from typing import Literal, NotRequired, TypedDict, Unpack
+from typing import Literal, NamedTuple, NotRequired, TypedDict, Unpack
 
 Register = Literal["a", "b", "c", "d"]
 type Value = str
 type Offset = int
 type Output = str
-type Return = tuple[Registers, Offset, Output]
+
+
+class Return(NamedTuple):
+    registers: Registers
+    offset: Offset
+    output: Output
 
 
 class Registers(TypedDict):
@@ -70,7 +75,7 @@ def run(
     **registers: Unpack[Registers],
 ) -> Registers:
     registers = dict.fromkeys("abcd", 0) | registers
-    instruction_pointer = 0
+    instruction_pointer, offset = 0, 0
     all_output = ""
 
     handlers = {
@@ -80,27 +85,25 @@ def run(
         "jnz": _jnz,
         "out": _out,
     }
+    res = Return(registers, offset, "")
 
     while instruction_pointer < len(commands):
         raw_command = commands[instruction_pointer]
         op, *args = raw_command.split(" ")
 
         handler = handlers[op]
-        registers, offset, output = handler(
-            registers,
-            *args,  # type: ignore[invalid-argument-type]
-        )
+        res = handler(res.registers, *args)  # type: ignore[invalid-argument-type]
 
-        if output:
-            all_output += output
+        if res.output:
+            all_output += res.output
             if len(all_output) > len(required_output):
-                return registers
+                return res.registers
             if not required_output.startswith(all_output):
                 raise ValueError(all_output)
 
-        instruction_pointer += offset or 1
+        instruction_pointer += res.offset or 1
 
-    return registers
+    return res.registers
 
 
 def _cpy(registers: Registers, from_: Register | Value, to_: Register) -> Return:
@@ -112,17 +115,17 @@ def _cpy(registers: Registers, from_: Register | Value, to_: Register) -> Return
         case _:
             raise ValueError(from_)
 
-    return registers, 0, ""
+    return Return(registers, 0, "")
 
 
 def _inc(registers: Registers, from_: Register) -> Return:
     registers[from_] += 1
-    return registers, 0, ""
+    return Return(registers, 0, "")
 
 
 def _dec(registers: Registers, from_: Register) -> Return:
     registers[from_] -= 1
-    return registers, 0, ""
+    return Return(registers, 0, "")
 
 
 def _jnz(registers: Registers, from_: Register | Value, n: Value) -> Return:
@@ -134,7 +137,7 @@ def _jnz(registers: Registers, from_: Register | Value, n: Value) -> Return:
         case _:
             raise ValueError(from_)
 
-    return registers, int(n) if should_jump else 0, ""
+    return Return(registers, int(n) if should_jump else 0, "")
 
 
 def _out(registers: Registers, x: Register | Value) -> Return:
@@ -144,7 +147,7 @@ def _out(registers: Registers, x: Register | Value) -> Return:
         case str():
             pass
 
-    return registers, 0, str(x)
+    return Return(registers, 0, str(x))
 
 
 assert _cpy({"a": 0}, "42", "a") == ({"a": 42}, 0, "")

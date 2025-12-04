@@ -15,12 +15,25 @@ Anyway, what value should actually be sent to the safe?
 from dataclasses import dataclass
 from enum import StrEnum, auto
 from re import fullmatch
-from typing import ClassVar, Literal, NotRequired, Protocol, TypedDict, Unpack
+from typing import (
+    ClassVar,
+    Literal,
+    NamedTuple,
+    NotRequired,
+    Protocol,
+    TypedDict,
+    Unpack,
+)
 
 Register = Literal["a", "b", "c", "d"]
 type Value = str
 type Offset = int
-type CommandReturn = tuple[Registers, list[Command], Offset]
+
+
+class Return(NamedTuple):
+    registers: Registers
+    commands: list[Command]
+    offset: Offset
 
 
 @dataclass
@@ -86,7 +99,7 @@ class CDCyclePatch(Patch):
 
 def run(raw_commands: list[str], **registers: Unpack[Registers]) -> Registers:
     registers = dict.fromkeys("abcd", 0) | registers
-    instruction_pointer = 0
+    instruction_pointer, offset = 0, 0
     commands = [_parse_command(c) for c in raw_commands]
 
     handlers = {
@@ -96,34 +109,35 @@ def run(raw_commands: list[str], **registers: Unpack[Registers]) -> Registers:
         "jnz": _jnz,
         "tgl": _tgl,
     }
+    res = Return(registers, commands, offset)
 
-    while instruction_pointer < len(commands):
-        registers, commands, offset = _optimize_loops(
-            registers,
-            commands,
+    while instruction_pointer < len(res.commands):
+        res = _optimize_loops(
+            res.registers,
+            res.commands,
             instruction_pointer,
         )
 
-        if not offset:
-            command = commands[instruction_pointer]
+        if not res.offset:
+            command = res.commands[instruction_pointer]
             handler = handlers[command.op]
-            registers, commands, offset = handler(
-                registers,
-                commands,
+            res = handler(
+                res.registers,
+                res.commands,
                 instruction_pointer,
                 *command.args,  # type: ignore[invalid-argument-type]
             )
 
-        instruction_pointer += offset or 1
+        instruction_pointer += res.offset or 1
 
-    return registers
+    return res.registers
 
 
 def _optimize_loops(
     registers: Registers,
     commands: list[Command],
     instruction_pointer: int,
-) -> CommandReturn:
+) -> Return:
     offset = 0
 
     for patch in [ABCyclePatch, CDCyclePatch]:
@@ -134,7 +148,7 @@ def _optimize_loops(
             registers = patch.apply(registers)
             offset = len(patch.pattern)
 
-    return registers, commands, offset
+    return Return(registers, commands, offset)
 
 
 def _cpy(
@@ -143,12 +157,12 @@ def _cpy(
     instruction_pointer: int,
     from_: Register | Value,
     to_: Register | Value,
-) -> CommandReturn:
+) -> Return:
     match to_:
         case "a" | "b" | "c" | "d":
             pass
         case _:
-            return registers, commands, 0
+            return Return(registers, commands, 0)
 
     match from_:
         case "a" | "b" | "c" | "d":
@@ -158,7 +172,7 @@ def _cpy(
         case _:
             pass
 
-    return registers, commands, 0
+    return Return(registers, commands, 0)
 
 
 def _inc(
@@ -166,9 +180,9 @@ def _inc(
     commands: list[Command],
     instruction_pointer: int,
     from_: Register,
-) -> CommandReturn:
+) -> Return:
     registers[from_] += 1
-    return registers, commands, 0
+    return Return(registers, commands, 0)
 
 
 def _dec(
@@ -176,9 +190,9 @@ def _dec(
     commands: list[Command],
     instruction_pointer: int,
     from_: Register,
-) -> CommandReturn:
+) -> Return:
     registers[from_] -= 1
-    return registers, commands, 0
+    return Return(registers, commands, 0)
 
 
 def _jnz(
@@ -187,14 +201,14 @@ def _jnz(
     instruction_pointer: int,
     from_: Register | Value,
     n: Value,
-) -> CommandReturn:
+) -> Return:
     match from_:
         case "a" | "b" | "c" | "d":
             should_jump = bool(registers[from_])  # type: ignore[invalid-key]
         case str():
             should_jump = bool(int(from_))
         case _:
-            return registers, commands, 0
+            return Return(registers, commands, 0)
 
     match n:
         case str() if fullmatch(r"[+-]?\d+", n):
@@ -202,9 +216,9 @@ def _jnz(
         case "a" | "b" | "c" | "d":
             n = registers[n]  # type: ignore[invalid-key]
         case _:
-            return registers, commands, 0
+            return Return(registers, commands, 0)
 
-    return registers, commands, int(n) if should_jump else 0
+    return Return(registers, commands, int(n) if should_jump else 0)
 
 
 def _tgl(
@@ -212,7 +226,7 @@ def _tgl(
     commands: list[Command],
     instruction_pointer: int,
     offset: Register | Value,
-) -> CommandReturn:
+) -> Return:
     match offset:
         case "a" | "b" | "c" | "d":
             toggle_pointer = instruction_pointer + registers[offset]  # type: ignore[invalid-key]
@@ -220,7 +234,7 @@ def _tgl(
             raise ValueError
 
     if toggle_pointer >= len(commands):
-        return registers, commands, 0
+        return Return(registers, commands, 0)
 
     command_to_change = commands[toggle_pointer]
     match command_to_change.op:
@@ -236,7 +250,7 @@ def _tgl(
             new_op = Op.JNZ
 
     command_to_change.op = new_op
-    return registers, commands, 0
+    return Return(registers, commands, 0)
 
 
 def _parse_command(raw_command: str) -> Command:

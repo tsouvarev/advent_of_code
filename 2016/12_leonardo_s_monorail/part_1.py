@@ -52,12 +52,16 @@ what value is left in register a?
 If you instead initialize register c to be 1, what value is now left in register a?
 """
 
-from typing import Literal, NotRequired, TypedDict, Unpack
+from typing import Literal, NamedTuple, NotRequired, TypedDict, Unpack
 
 Register = Literal["a", "b", "c", "d"]
 type Value = str
 type Offset = int
-type Return = tuple[Registers, Offset]
+
+
+class Return(NamedTuple):
+    registers: Registers
+    offset: Offset
 
 
 class Registers(TypedDict):
@@ -69,7 +73,7 @@ class Registers(TypedDict):
 
 def run(commands: list[str], **registers: Unpack[Registers]) -> Registers:
     registers = dict.fromkeys("abcd", 0) | registers
-    instruction_pointer = 0
+    instruction_pointer, offset = 0, 0
 
     handlers = {
         "cpy": _cpy,
@@ -77,17 +81,18 @@ def run(commands: list[str], **registers: Unpack[Registers]) -> Registers:
         "dec": _dec,
         "jnz": _jnz,
     }
+    res = Return(registers, offset)
 
     while instruction_pointer < len(commands):
         raw_command = commands[instruction_pointer]
         op, *args = raw_command.split(" ")
 
         handler = handlers[op]
-        registers, offset = handler(
-            registers,
+        res = handler(
+            res.registers,
             *args,  # type: ignore[invalid-argument-type]
         )
-        instruction_pointer += offset or 1
+        instruction_pointer += res.offset or 1
 
     return registers
 
@@ -101,17 +106,17 @@ def _cpy(registers: Registers, from_: Register | Value, to_: Register) -> Return
         case _:
             raise ValueError(from_)
 
-    return registers, 0
+    return Return(registers, 0)
 
 
 def _inc(registers: Registers, from_: Register) -> Return:
     registers[from_] += 1
-    return registers, 0
+    return Return(registers, 0)
 
 
 def _dec(registers: Registers, from_: Register) -> Return:
     registers[from_] -= 1
-    return registers, 0
+    return Return(registers, 0)
 
 
 def _jnz(registers: Registers, from_: Register | Value, n: Value) -> Return:
@@ -123,7 +128,7 @@ def _jnz(registers: Registers, from_: Register | Value, n: Value) -> Return:
         case _:
             raise ValueError(from_)
 
-    return registers, int(n) if should_jump else 0
+    return Return(registers, int(n) if should_jump else 0)
 
 
 assert _cpy({"a": 0}, "42", "a") == ({"a": 42}, 0)
