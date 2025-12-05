@@ -1,5 +1,5 @@
-RUFF := 'uv run ruff'
-TY := 'uv run ty'
+RUFF := 'uv run --frozen ruff'
+TY := 'uv run --frozen ty'
 
 format:
     {{ RUFF }} format . --silent
