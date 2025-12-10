@@ -19,3 +19,9 @@ day:
 
 shell:
     {{ RUN }} ipython
+
+test *args:
+    {{ RUN }} pytest -s -v {{ args }}
+
+run *args:
+    {{ RUN }} python {{ args }}
