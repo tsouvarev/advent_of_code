@@ -3,7 +3,8 @@ revision = 3
 requires-python = ">=3.14"
 
 [options]
-exclude-newer = "2025-12-08T21:00:00Z"
+prerelease-mode = "allow"
+exclude-newer = "2025-12-09T21:00:00Z"
 
 [[package]]
 name = "advent-of-code-2024"

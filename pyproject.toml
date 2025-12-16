@@ -13,3 +13,6 @@ dev = [
     "ruff",
     "ty",
 ]
+
+[tool.uv]
+prerelease = "allow"
