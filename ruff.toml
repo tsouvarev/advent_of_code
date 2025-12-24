@@ -9,6 +9,7 @@ ignore = [
     'ANN', # Annotations
     'B905', # zip() without an explicit strict= parameter
     'B911', # itertools.batched() without an explicit strict parameter
+    'COM812', # Checks for the absence of trailing commas
     'D', # Docstrings
     'E741', # Ambiguous variable name
     'ERA001', # Found commented-out code

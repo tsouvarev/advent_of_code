@@ -87,12 +87,13 @@ from itertools import islice
 type Field = list[Row]
 type Row = list[str]
 type Cell = str
+type Triplet = tuple[Cell, Cell, Cell]
 
 SAFE, TRAP = ".^"
 
 
 def gen_rows(row: Row) -> Iterator[Row]:
-    yield list(row)
+    yield row
 
     while True:
         next_row = list(map(_determine_cell, _triplets([SAFE, *row, SAFE])))
@@ -100,7 +101,7 @@ def gen_rows(row: Row) -> Iterator[Row]:
         row = next_row
 
 
-def _determine_cell(prev_row: tuple[Cell, Cell, Cell]) -> Cell:
+def _determine_cell(prev_row: Triplet) -> Cell:
     trap_cells = {
         (TRAP, TRAP, SAFE),
         (SAFE, TRAP, TRAP),
@@ -116,7 +117,7 @@ def _count_safe_tiles(field: Field) -> int:
     return sum(row.count(SAFE) for row in field)
 
 
-def _triplets(seq: Row) -> zip[str]:
+def _triplets(seq: Row) -> Iterator[Triplet]:
     first, second, third = map(iter, [seq] * 3)
     next(second)
     next(third)
@@ -160,5 +161,9 @@ assert list(islice(gen_rows(list(".^^.^.^^^^")), 10)) == _to_field(
 
 with open("2016/18_like_a_rogue/input.txt") as f:
     row = list(f.read().strip())
-    print(sum(map(_count_safe_tiles, islice(gen_rows(row), 40))))
-    print(sum(map(_count_safe_tiles, islice(gen_rows(row), 400_000))))
+
+    rows = islice(gen_rows(row), 40)
+    print(sum(map(_count_safe_tiles, rows)))  # type: ignore[invalid-argument-type]
+
+    rows = islice(gen_rows(row), 400_000)
+    print(sum(map(_count_safe_tiles, rows)))  # type: ignore[invalid-argument-type]

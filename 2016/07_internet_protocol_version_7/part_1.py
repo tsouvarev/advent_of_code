@@ -59,7 +59,7 @@ def _has_abba(part: list[str]) -> bool:
     return a == d and b == c and a != b
 
 
-def _fourwise(seq: list[str]) -> Iterator[str]:
+def _fourwise(seq: list[str]) -> Iterator[list[str]]:
     for i in range(len(seq) - 3):
         yield seq[i : i + 4]
 
