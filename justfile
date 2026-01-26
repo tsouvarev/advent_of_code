@@ -15,6 +15,9 @@ install *packages:
 sync:
     uv sync
 
+lock:
+    uv lock --exclude-newer {{ CUTOFF }}
+
 upgrade:
     uv lock --upgrade --exclude-newer {{ CUTOFF }}
 
