@@ -129,7 +129,7 @@ def _to_field(raw_field: list[str]) -> Field:
     return [list(row) for row in raw_field]
 
 
-assert _count_safe_tiles([*".^^.^.^^^^"]) == 3
+assert _count_safe_tiles([[c] for c in ".^^.^.^^^^"]) == 3
 
 assert _determine_cell(tuple("^^.")) is TRAP
 assert _determine_cell(tuple(".^^")) is TRAP

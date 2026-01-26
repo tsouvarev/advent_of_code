@@ -114,7 +114,7 @@ def _press_buttons(buttons: list[Button]) -> State:
     state = 0
 
     for button in buttons:
-        state ^= button  # type: ignore[unsupported-operator]
+        state ^= button
 
     return state
 
