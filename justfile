@@ -13,7 +13,7 @@ install *packages:
     uv add --exclude-newer {{ CUTOFF }} {{ packages }}
 
 sync:
-    uv sync
+    uv sync --frozen
 
 lock:
     uv lock --exclude-newer {{ CUTOFF }}
