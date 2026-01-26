@@ -21,6 +21,9 @@ lock:
 upgrade:
     uv lock --upgrade {{ WITH_CUTOFF }}
 
+outdated:
+    uv pip list --outdated {{ WITH_CUTOFF }}
+
 day:
     {{ RUN }} copier copy _day_template/ . --trust
 
