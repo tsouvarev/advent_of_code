@@ -1,4 +1,5 @@
 RUN := 'uv run --frozen'
+CUTOFF := '"7 days ago"'
 
 format:
     {{ RUN }} ruff format . --silent
@@ -8,11 +9,14 @@ check:
     {{ RUN }} ruff check .
     {{ RUN }} ty check .
 
-install:
+install *packages:
+    uv add --exclude-newer {{ CUTOFF }} {{ packages }}
+
+sync:
     uv sync
 
 upgrade:
-    uv lock --upgrade --exclude-newer '7 days ago'
+    uv lock --upgrade --exclude-newer {{ CUTOFF }}
 
 day:
     {{ RUN }} copier copy _day_template/ . --trust
